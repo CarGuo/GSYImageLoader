@@ -3,7 +3,7 @@ package com.shuyu.gsyimageloader
 import android.graphics.Point
 
 /**
- * Created by guoshuyu on 2018/1/17.
+ * 图片加载配置
  */
 class LoadOption {
 

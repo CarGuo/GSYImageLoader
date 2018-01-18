@@ -54,6 +54,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation androidDependencies.appcompat_v7
     implementation androidDependencies.support_v4
+    implementation androidDependencies.kotlinAnko
     implementation project(':GSYImageLoader')
     implementation project(':GSYGIideLoader')
 }

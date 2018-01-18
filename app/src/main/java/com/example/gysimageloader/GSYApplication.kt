@@ -6,6 +6,7 @@ import com.shuyu.gsyimageloader.GSYImageLoaderManager
 import kotlin.properties.Delegates
 
 /**
+ * 应用的Application
  * Created by guoshuyu on 2018/1/18.
  */
 class GSYApplication : Application() {
@@ -39,6 +40,6 @@ class GSYApplication : Application() {
                 "http://d.hiphotos.baidu.com/zhidao/pic/item/4ec2d5628535e5dd5c955af875c6a7efce1b6258.jpg",
                 "http://img.hb.aicdn.com/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580"
         )
-        GSYImageLoaderManager.initialize(GSYGlideImageLoader())
+        GSYImageLoaderManager.initialize(GSYGlideImageLoader(this))
     }
 }

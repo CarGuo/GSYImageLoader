@@ -15,6 +15,8 @@ ext {
     androidCompileSdkVersion = 27
     supportLibraryVersion = '27.0.2'
 
+    anko_version = '0.8.2'
+
     //ViewLibraries
     butterKnifeVersion = '8.2.1'
     scaleImage = '3.9.0'
@@ -35,26 +37,27 @@ ext {
             cardview_v7 : "com.android.support:cardview-v7:${supportLibraryVersion}",
             support_v4  : "com.android.support:support-v4:${supportLibraryVersion}",
             design      : "com.android.support:design:${supportLibraryVersion}",
+            kotlinAnko  : "org.jetbrains.anko:anko-common:$anko_version",
     ]
 
     viewDependencies = [
-            butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            apt_butterKnife      : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            scaleImage      : "com.davemorrissey.labs:subsampling-scale-image-view:${scaleImage}",
+            butterKnife    : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            apt_butterKnife: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            scaleImage     : "com.davemorrissey.labs:subsampling-scale-image-view:${scaleImage}",
 
     ]
 
     dataDependencies = [
-            fresco         : "com.facebook.fresco:fresco:${fresco}",
-            frescoGif      : "com.facebook.fresco:animated-gif:${frescoGif}",
-            frescoPhoto    : "me.relex:photodraweeview:${frescoPhoto}",
-            gpuImage       : "jp.co.cyberagent.android.gpuimage:gpuimage-library:${gpuImage}",
+            fresco          : "com.facebook.fresco:fresco:${fresco}",
+            frescoGif       : "com.facebook.fresco:animated-gif:${frescoGif}",
+            frescoPhoto     : "me.relex:photodraweeview:${frescoPhoto}",
+            gpuImage        : "jp.co.cyberagent.android.gpuimage:gpuimage-library:${gpuImage}",
 
-            glide: "com.github.bumptech.glide:glide:$glideVersion",
+            glide           : "com.github.bumptech.glide:glide:$glideVersion",
             glideIntegration: "com.github.bumptech.glide:okhttp3-integration:$glideVersion",
-            okhttp3: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            okhttp3         : "com.squareup.okhttp3:okhttp:$okhttpVersion",
 
-            picasso: "com.squareup.picasso:picasso:$picassoVersion",
+            picasso         : "com.squareup.picasso:picasso:$picassoVersion",
 
 
     ]
