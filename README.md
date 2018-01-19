@@ -4,7 +4,15 @@
 状态 | 功能
 -------- | ---
 **已完成**|**Glide相关**
-待完成|**Picasso**
-待完成|**Fresco**
+**已完成**|**Picasso相关**
+**已完成**|**Fresco相关**
 待完成|**超大图**
+待完成|**补全更多通用接口**
+待完成|**发布远程依赖**
+待完成|**注释与文档**
 
+### 依赖版本
+
+* GSYGlideLoader 当前版本 Glide 4.5.0
+* GSYPicassoLoader 当前版本 Picasso 2.5.2
+* GSYFrescoLoader 当前版本 Fresco 1.8.0

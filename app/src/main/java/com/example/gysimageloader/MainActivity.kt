@@ -2,6 +2,7 @@ package com.example.gysimageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import com.facebook.drawee.view.SimpleDraweeView
+import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
 import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
@@ -25,10 +28,12 @@ class MainActivity : AppCompatActivity() {
             return GSYImageLoaderManager.sInstance.imageLoader()
         }
 
-        private fun getOption(url: String): LoadOption {
+        private fun getOption(url: String, po: Int = 0): LoadOption {
             return LoadOption()
                     .setDefaultImg(R.mipmap.ic_launcher)
                     .setErrorImg(R.mipmap.ic_launcher)
+                    .setCircle(po == 2)
+                    .setSize(if (po == 1) Point(10, 10) else null)
                     .setUri(url)
         }
     }
@@ -38,7 +43,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val adapter = ImageAdapter(this, GSYApplication.instance.mImageList)
+        val adapter = if (GSYApplication.instance.getInitImageLoader() is GSYFrescoImageLoader) {
+            ImageFrescoAdapter(this, GSYApplication.instance.mImageList)
+        } else {
+            ImageAdapter(this, GSYApplication.instance.mImageList)
+        }
+
+
         imageList.adapter = adapter
         imageList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
 
@@ -117,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                 view = convertView
                 holder = convertView.tag as ViewHolder
             }
-            val loadOption = getOption(dataList[p0])
+            val loadOption = getOption(dataList[p0], p0)
             getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
                 override fun onStart() {
 
@@ -153,6 +164,60 @@ class MainActivity : AppCompatActivity() {
 
         internal inner class ViewHolder {
             var imageView: ImageView? = null
+        }
+    }
+
+
+    class ImageFrescoAdapter(private val context: Context, private val dataList: List<String>) : BaseAdapter() {
+
+        override fun getView(p0: Int, convertView: View?, p2: ViewGroup?): View? {
+            val holder: ViewHolder
+            val view: View
+            if (convertView == null) {
+                holder = ViewHolder()
+                view = LayoutInflater.from(context).inflate(R.layout.layout_fresco_image_item, null)
+                holder.imageView = view.findViewById(R.id.image_item_fresco)
+                view.tag = holder
+            } else {
+                view = convertView
+                holder = convertView.tag as ViewHolder
+            }
+            val loadOption = getOption(dataList[p0], p0)
+            getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
+                override fun onStart() {
+
+                }
+
+                override fun onProgress(progress: Int) {
+
+                }
+
+                override fun onFinish() {
+                }
+
+                override fun onSuccess(result: Any?) {
+                }
+
+                override fun onFail(error: Exception?) {
+                }
+            })
+            return view
+        }
+
+        override fun getItem(p0: Int): Any {
+            return dataList[p0]
+        }
+
+        override fun getItemId(p0: Int): Long {
+            return 0
+        }
+
+        override fun getCount(): Int {
+            return dataList.size
+        }
+
+        internal inner class ViewHolder {
+            var imageView: SimpleDraweeView? = null
         }
     }
 }

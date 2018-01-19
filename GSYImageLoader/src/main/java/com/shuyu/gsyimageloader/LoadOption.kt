@@ -19,9 +19,6 @@ class LoadOption {
     //是否圆形
     var isCircle: Boolean = false
 
-    //是否本地路径
-    var isLocal: Boolean = false
-
     //是否gif
     var isAnima: Boolean = false
 
@@ -51,17 +48,12 @@ class LoadOption {
         return this
     }
 
-    fun setLoadLocalPath(loadLocalPath: Boolean): LoadOption {
-        this.isLocal = loadLocalPath
-        return this
-    }
-
     fun setAnima(anima: Boolean): LoadOption {
         isAnima = anima
         return this
     }
 
-    fun setSize(size: Point): LoadOption {
+    fun setSize(size: Point?): LoadOption {
         this.mSize = size
         return this
     }

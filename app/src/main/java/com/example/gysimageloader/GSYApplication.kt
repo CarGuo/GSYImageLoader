@@ -1,8 +1,10 @@
 package com.example.gysimageloader
 
 import android.app.Application
+import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
+import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsypicassoloader.GSYPicassoImageLoader
 import kotlin.properties.Delegates
 
@@ -42,6 +44,13 @@ class GSYApplication : Application() {
                 "http://img.hb.aicdn.com/d2024a8a998c8d3e4ba842e40223c23dfe1026c8bbf3-OudiPA_fw580"
         )
         //GSYImageLoaderManager.initialize(GSYGlideImageLoader(this))
-        GSYImageLoaderManager.initialize(GSYPicassoImageLoader(this))
+        //GSYImageLoaderManager.initialize(GSYPicassoImageLoader(this))
+        GSYImageLoaderManager.initialize(getInitImageLoader())
+    }
+
+    fun getInitImageLoader(): IGSYImageLoader {
+        //return GSYGlideImageLoader(this)
+        //return GSYPicassoImageLoader(this)
+        return GSYFrescoImageLoader(this)
     }
 }

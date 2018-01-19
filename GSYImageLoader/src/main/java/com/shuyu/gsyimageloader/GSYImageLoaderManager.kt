@@ -6,7 +6,7 @@ import kotlin.properties.Delegates
  * 图片加载管理
  * Created by guoshuyu on 2018/1/18.
  */
-class GSYImageLoaderManager private constructor(private var mImageLoader: IGSYImageLoader) {
+class GSYImageLoaderManager private constructor(private var mImageLoader: IGSYImageLoader) : IGSYImageLoader by mImageLoader {
 
     companion object {
         //委托notNull，这个值在被获取之前没有被分配，它就会抛出一个异常。
@@ -18,10 +18,10 @@ class GSYImageLoaderManager private constructor(private var mImageLoader: IGSYIm
     }
 
     fun imageLoader(): IGSYImageLoader {
-        return mImageLoader
+        return this
     }
 
     fun <T : IGSYImageLoader> imageLoaderExtend(): T {
-        return mImageLoader as T
+        return this as T
     }
 }
