@@ -1,6 +1,7 @@
 package com.example.gysimageloader
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -81,8 +82,14 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onSuccess(result: Any?) {
                     result?.let {
-                        val file = result as File
-                        Debuger.printfLog("download onSuccess " + file.absolutePath)
+                        when (result) {
+                            is File -> {
+                                Debuger.printfLog("download onSuccess " + result.absolutePath)
+                            }
+                            is Bitmap -> {
+                                Debuger.printfLog("download onSuccess " + result.toString())
+                            }
+                        }
                     }
                 }
 
