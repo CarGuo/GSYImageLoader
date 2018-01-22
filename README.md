@@ -1,5 +1,9 @@
 
-## GSYImageLoader图片加载工具，集成Glide、Picasso、Fresco的kotlin工具类，一键切换图片加载，提供常用的图片相关功能接口
+![](https://github.com/CarGuo/GSYImageLoader/blob/master/logo.png)
+
+## GSYImageLoader 图片加载管理器
+
+#### 集成Glide、Picasso、Fresco的kotlin图片管理器，一键切换图片加载类，提供常用的图片相关功能接口。
 
 [![](https://jitpack.io/v/CarGuo/GSYImageLoader.svg)](https://jitpack.io/#CarGuo/GSYImageLoader)
 [![Build Status](https://travis-ci.org/CarGuo/GSYImageLoader.svg?branch=master)](https://travis-ci.org/CarGuo/GSYImageLoader)
@@ -13,13 +17,11 @@
 **已完成**|**Glide相关**
 **已完成**|**Picasso相关**
 **已完成**|**Fresco相关**
-待完成|**超大图**
-待完成|**发布远程依赖**
 
 
-### 依赖版本
+### 一、依赖版本
 
-#### 在project下的build.gradle添加
+#### 1、在project下的build.gradle添加
 ```
 allprojects {
 	repositories {
@@ -28,7 +30,7 @@ allprojects {
 	}
 }
 ```
-#### 在module下的build.gradle添加
+#### 2、在module下的build.gradle添加
 ```
 dependencies {
     implementation 'com.github.CarGuo.GSYImageLoader:GSYGlideLoader:v1.0.0'
@@ -41,12 +43,16 @@ dependencies {
 
 ```
 
+### 二、当前版本核心
+
 * GSYGlideLoader 当前版本 Glide 4.5.0
+
 * GSYPicassoLoader 当前版本 Picasso 2.5.2
+
 * GSYFrescoLoader 当前版本 Fresco 1.8.0
 
 
-### 使用方法
+### 三、使用方法
 
 #### 1、在Application中初始化
 
@@ -72,8 +78,8 @@ GSYImageLoaderManager.sInstance.imageLoader().loadImage(loadOption, holder.image
    })
 ```
 
-#### 更多使用请参考DEMO
+#### 3、更多使用请参考DEMO
 
-#### [API接口](https://github.com/CarGuo/GSYImageLoader/blob/master/API.md)
+### [四、API接口](https://github.com/CarGuo/GSYImageLoader/blob/master/API.md)
 
-[其他资料-Android图片加载开源库深度推荐](https://www.jianshu.com/p/cd058a924288)
+### [五、其他资料-Android图片加载开源库深度推荐](https://www.jianshu.com/p/cd058a924288)
