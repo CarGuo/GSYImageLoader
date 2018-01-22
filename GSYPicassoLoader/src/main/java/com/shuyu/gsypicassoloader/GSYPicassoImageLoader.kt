@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
@@ -65,12 +66,12 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
     }
 
     override fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): File? {
-        //picasso没有获取本地缓存接口
+        Log.e(javaClass::getName.toString(), "not support for picasso")
         return null
     }
 
     override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
-        //not support now
+        Log.e(javaClass::getName.toString(), "not support for picasso")
         return false
     }
 
@@ -134,7 +135,7 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
             loadOption.mSize?.let {
                 request?.resize(it.x, it.y)
             }
-            if(loadOption.mTransformations.isNotEmpty()) {
+            if (loadOption.mTransformations.isNotEmpty()) {
                 request?.transform(loadOption.mTransformations as List<Transformation>)
             }
             extendOption?.let {

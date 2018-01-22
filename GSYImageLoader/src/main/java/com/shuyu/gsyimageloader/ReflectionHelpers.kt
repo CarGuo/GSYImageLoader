@@ -11,7 +11,7 @@ import java.util.HashMap
  * Collection of helper methods for calling methods and accessing fields reflectively.
  */
 object ReflectionHelpers {
-    val PRIMITIVE_RETURN_VALUES = Collections.unmodifiableMap(object : HashMap<String, Any>() {
+    private val PRIMITIVE_RETURN_VALUES = Collections.unmodifiableMap(object : HashMap<String, Any>() {
         init {
             put("boolean", java.lang.Boolean.FALSE)
             put("int", 0)
@@ -21,7 +21,7 @@ object ReflectionHelpers {
             put("short", 0.toShort())
             put("byte", 0.toByte())
         }
-    })
+    })!!
 
     fun <T> createNullProxy(clazz: Class<T>): T {
         return Proxy.newProxyInstance(clazz.classLoader,

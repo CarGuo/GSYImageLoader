@@ -1,7 +1,6 @@
 package com.shuyu.gsyimageloader
 
 import android.graphics.Point
-import java.util.HashMap
 
 /**
  * 图片加载配置

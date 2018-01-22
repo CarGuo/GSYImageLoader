@@ -30,10 +30,17 @@ import java.io.File
 class MainActivity : AppCompatActivity() {
 
     companion object {
+
+        /**
+         * 获取当前加载器
+         */
         private fun getLoader(): IGSYImageLoader {
             return GSYImageLoaderManager.sInstance.imageLoader()
         }
 
+        /**
+         * 获取图片加载配置
+         */
         private fun getOption(url: String, po: Int = 0): LoadOption {
             val loadOption = LoadOption()
                     .setDefaultImg(R.mipmap.ic_launcher)
@@ -51,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         /**
-         *
+         * 获取图片处理
          */
         private fun getProcess(): Any? {
             var process: Any? = null
@@ -87,6 +94,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        /**
+         * 清除缓存
+         */
         clearCache.setOnClickListener {
             async {
                 getLoader().clearCache()
@@ -95,6 +105,10 @@ class MainActivity : AppCompatActivity() {
                 //getLoader().clearCache(GSYImageConst.CLEAR_ALL_CACHE)
             }
         }
+
+        /**
+         * 获取本地缓存
+         */
         getCache.setOnClickListener {
             val isCache = getLoader().isCache(getOption(GSYApplication.instance.mImageList[0]))
             Debuger.printfLog("isCache " + isCache)
@@ -106,6 +120,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        /**
+         * 获取bitmap缓存
+         */
         getBitmap.setOnClickListener {
             async {
                 val file = getLoader().getLocalCacheBitmap(getOption(GSYApplication.instance.mImageList[0]))
@@ -114,18 +132,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        /**
+         * 下载图片
+         */
         downLoad.setOnClickListener {
             getLoader().downloadOnly(getOption(GSYApplication.instance.mImageList[0]), object : IGSYImageLoader.Callback {
                 override fun onStart() {
                     Debuger.printfLog("download onStart")
-                }
-
-                override fun onProgress(progress: Int) {
-                    Debuger.printfLog("download onProgress")
-                }
-
-                override fun onFinish() {
-                    Debuger.printfLog("download onFinish")
                 }
 
                 override fun onSuccess(result: Any?) {
@@ -169,13 +183,6 @@ class MainActivity : AppCompatActivity() {
             getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
                 override fun onStart() {
 
-                }
-
-                override fun onProgress(progress: Int) {
-
-                }
-
-                override fun onFinish() {
                 }
 
                 override fun onSuccess(result: Any?) {
@@ -223,13 +230,6 @@ class MainActivity : AppCompatActivity() {
             getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
                 override fun onStart() {
 
-                }
-
-                override fun onProgress(progress: Int) {
-
-                }
-
-                override fun onFinish() {
                 }
 
                 override fun onSuccess(result: Any?) {
