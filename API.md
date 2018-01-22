@@ -1,7 +1,7 @@
 
 ### API
 
-[GSYImageLoaderManager](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/GSYImageLoaderManager.kt)
+[1、GSYImageLoaderManager](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/GSYImageLoaderManager.kt)
 
 ```
 /**
@@ -22,7 +22,7 @@ fun <T : IGSYImageLoader> imageLoaderExtend(): T
 
 ```
 
-[IGSYImageLoader](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/IGSYImageLoader.kt)
+[2、IGSYImageLoader](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/IGSYImageLoader.kt)
 
 ```
     /**
