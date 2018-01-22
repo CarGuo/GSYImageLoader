@@ -1,9 +1,9 @@
 
 ![](https://github.com/CarGuo/GSYImageLoader/blob/master/logo.png)
 
-## GSYImageLoader 图片加载管理器
+# GSYImageLoader 图片加载管理器
 
-#### 集成Glide、Picasso、Fresco的kotlin图片管理器，一键切换图片加载类，提供常用的图片相关功能接口。
+集成Glide、Picasso、Fresco的kotlin图片管理器，一键切换图片加载类，提供常用的图片相关功能接口。
 
 [![](https://jitpack.io/v/CarGuo/GSYImageLoader.svg)](https://jitpack.io/#CarGuo/GSYImageLoader)
 [![Build Status](https://travis-ci.org/CarGuo/GSYImageLoader.svg?branch=master)](https://travis-ci.org/CarGuo/GSYImageLoader)
