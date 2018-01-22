@@ -19,9 +19,8 @@ import java.lang.IllegalStateException
 import java.io.File
 import com.bumptech.glide.signature.EmptySignature
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper
-import com.bumptech.glide.load.Key.STRING_CHARSET_NAME
-import com.bumptech.glide.load.Key
-import java.security.MessageDigest
+import com.bumptech.glide.load.engine.cache.MemoryCache
+import com.shuyu.gsyimageloader.ReflectionHelpers
 
 
 /**
@@ -61,10 +60,40 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
                 Glide.get(context.applicationContext).clearMemory()
                 Glide.get(context.applicationContext).clearDiskCache()
             }
-            GSYImageConst.CLEAR_MENORY_CACHE ->
+            GSYImageConst.CLEAR_MEMORY_CACHE ->
                 Glide.get(context.applicationContext).clearMemory()
             GSYImageConst.CLEAR_DISK_CACHE ->
                 Glide.get(context.applicationContext).clearDiskCache()
+        }
+    }
+
+    override fun clearCacheKey(type: Int, loadOption: LoadOption) {
+        val deleteDisk = {
+            val diskCache = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
+            val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain())
+            diskCache.delete(key)
+        }
+        val deleteMemory = {
+            try {
+                val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain());
+                val cache = ReflectionHelpers.getField<MemoryCache>(Glide.get(context.applicationContext), "memoryCache")
+                cache.remove(key)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        when (type) {
+            GSYImageConst.CLEAR_ALL_CACHE -> {
+                deleteMemory.invoke()
+                deleteDisk.invoke()
+            }
+            GSYImageConst.CLEAR_MEMORY_CACHE -> {
+                deleteMemory()
+            }
+            GSYImageConst.CLEAR_DISK_CACHE -> {
+                deleteDisk.invoke()
+            }
+
         }
     }
 
@@ -78,7 +107,7 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
     override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
         // 寻找缓存图片
         val file = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-                .get(OriginalKey(loadOption.mUri as String, EmptySignature.obtain()))
+                .get(GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain()))
         return file != null
     }
 
@@ -120,32 +149,3 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
 
 }
 
-/**
- * Glide原图缓存Key
- */
-private class OriginalKey constructor(private val id: String, private val signature: Key) : Key {
-
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
-            return true
-        }
-        if (o == null || javaClass != o.javaClass) {
-            return false
-        }
-
-        val that = o as OriginalKey?
-
-        return id == that!!.id && signature == that.signature
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + signature.hashCode()
-        return result
-    }
-
-    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-        messageDigest.update(id.toByteArray(charset(STRING_CHARSET_NAME)))
-        signature.updateDiskCacheKey(messageDigest)
-    }
-}

@@ -22,12 +22,14 @@ import java.io.File
  * Fresco 图片加载
  * Created by guoshuyu on 2018/1/19.
  */
-class GSYFrescoImageLoader(private val context: Context) : IGSYImageLoader, GSYFrescoFactory {
+class GSYFrescoImageLoader(private val context: Context, private var config: ImagePipelineConfig? = null) : IGSYImageLoader, GSYFrescoFactory {
 
     init {
-        val config = ImagePipelineConfig.newBuilder(context.applicationContext)
-                .setDownsampleEnabled(true)
-                .build()
+        if (config == null) {
+            config = ImagePipelineConfig.newBuilder(context.applicationContext)
+                    .setDownsampleEnabled(true)
+                    .build()
+        }
         Fresco.initialize(context.applicationContext, config)
     }
 
@@ -48,14 +50,28 @@ class GSYFrescoImageLoader(private val context: Context) : IGSYImageLoader, GSYF
             GSYImageConst.CLEAR_ALL_CACHE -> {
                 Fresco.getImagePipeline().clearCaches()
             }
-            GSYImageConst.CLEAR_MENORY_CACHE ->
+            GSYImageConst.CLEAR_MEMORY_CACHE ->
                 Fresco.getImagePipeline().clearMemoryCaches()
             GSYImageConst.CLEAR_DISK_CACHE ->
                 Fresco.getImagePipeline().clearDiskCaches()
         }
     }
 
-    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?) :Boolean {
+    override fun clearCacheKey(type: Int, loadOption: LoadOption) {
+        val loadUri = getUri(loadOption.mUri)
+        when (type) {
+            GSYImageConst.CLEAR_ALL_CACHE -> {
+                Fresco.getImagePipeline().evictFromCache(loadUri)
+            }
+            GSYImageConst.CLEAR_MEMORY_CACHE ->
+                Fresco.getImagePipeline().evictFromMemoryCache(loadUri)
+            GSYImageConst.CLEAR_DISK_CACHE ->
+                Fresco.getImagePipeline().evictFromDiskCache(loadUri)
+
+        }
+    }
+
+    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
         val loadUri = getUri(loadOption.mUri)
         return isCached(context, loadUri)
     }

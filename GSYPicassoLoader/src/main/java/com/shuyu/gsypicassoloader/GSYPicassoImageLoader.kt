@@ -18,7 +18,13 @@ import java.io.IOException
  * Created by guoshuyu on 2018/1/19.
  */
 
-class GSYPicassoImageLoader(private val context: Context) : IGSYImageLoader {
+class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Builder? = null) : IGSYImageLoader {
+
+    private var mPicassoLoader: Picasso = if (builder != null) {
+        builder.build()
+    } else {
+        Picasso.with(context)
+    }
 
     override fun loadImage(loadOption: LoadOption, target: Any?, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {
         getRequest(loadOption, extendOption)?.let {
@@ -36,10 +42,25 @@ class GSYPicassoImageLoader(private val context: Context) : IGSYImageLoader {
 
     override fun clearCache(type: Int) {
         try {
-            val cache = ReflectionHelpers.getField<Cache>(Picasso.with(context), "cache")
+            val cache = ReflectionHelpers.getField<Cache>(mPicassoLoader, "cache")
             cache.clear()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    override fun clearCacheKey(type: Int, loadOption: LoadOption) {
+        val targetPath: Any? = loadOption.mUri
+        when (targetPath) {
+            is File -> {
+                Picasso.with(context).invalidate(targetPath)
+            }
+            is String -> {
+                Picasso.with(context).invalidate(targetPath)
+            }
+            is Uri -> {
+                Picasso.with(context).invalidate(targetPath)
+            }
         }
     }
 
@@ -84,16 +105,16 @@ class GSYPicassoImageLoader(private val context: Context) : IGSYImageLoader {
         var request: RequestCreator? = null
         when (targetPath) {
             is File -> {
-                request = Picasso.with(context).load(targetPath)
+                request = mPicassoLoader.load(targetPath)
             }
             is String -> {
-                request = Picasso.with(context).load(targetPath)
+                request = mPicassoLoader.load(targetPath)
             }
             is Uri -> {
-                request = Picasso.with(context).load(targetPath)
+                request = mPicassoLoader.load(targetPath)
             }
             is Int -> {
-                request = Picasso.with(context).load(targetPath)
+                request = mPicassoLoader.load(targetPath)
             }
         }
         request?.let {

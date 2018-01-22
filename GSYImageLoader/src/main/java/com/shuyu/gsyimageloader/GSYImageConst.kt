@@ -7,7 +7,7 @@ package com.shuyu.gsyimageloader
 class GSYImageConst {
     companion object {
         const val CLEAR_ALL_CACHE = 1
-        const val CLEAR_MENORY_CACHE = 2
+        const val CLEAR_MEMORY_CACHE = 2
         const val CLEAR_DISK_CACHE = 3
     }
 }

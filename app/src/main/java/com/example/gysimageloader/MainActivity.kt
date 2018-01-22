@@ -13,6 +13,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
+import com.shuyu.gsyimageloader.GSYImageConst
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
 import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
@@ -57,7 +58,9 @@ class MainActivity : AppCompatActivity() {
 
         clearCache.setOnClickListener {
             async {
-                getLoader().clearCache()
+                //getLoader().clearCache()
+                //getLoader().clearCacheKey(loadOption = getOption(GSYApplication.instance.mImageList[0]))
+                getLoader().clearCacheKey(GSYImageConst.CLEAR_ALL_CACHE, getOption(GSYApplication.instance.mImageList[0]))
                 //getLoader().clearCache(GSYImageConst.CLEAR_ALL_CACHE)
             }
         }

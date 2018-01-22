@@ -14,22 +14,71 @@ import java.io.File
  */
 interface IGSYImageLoader {
 
+    /**
+     * 加载图片
+     * @param loadOption
+     * @param target
+     * @param callback
+     * @param extendOption
+     */
     fun loadImage(loadOption: LoadOption, target: Any?, callback: Callback?, extendOption: ExtendedOptions? = null)
 
+    /**
+     * 清除缓存
+     * @param type
+     */
     fun clearCache(type: Int = GSYImageConst.CLEAR_DISK_CACHE)
 
-    fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): File?
+    /**
+     * 清除指定缓存
+     * @param type
+     * @param loadOption
+     */
+    fun clearCacheKey(type: Int = GSYImageConst.CLEAR_DISK_CACHE, loadOption: LoadOption)
 
-    fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Bitmap?
-
-    fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions? = null)
-
+    /**
+     * 是否已经缓存到本地
+     * @param loadOption
+     * @param extendOption
+     * @return Boolean
+     */
     fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null):Boolean
 
+    /**
+     * 获取本地缓存
+     * @param loadOption
+     * @param extendOption
+     * @return File
+     */
+    fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): File?
+
+    /**
+     * 获取本地缓存bitmap
+     * @param loadOption
+     * @param extendOption
+     * @return Bitmap
+     */
+    fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Bitmap?
+
+    /**
+     * 下载图片
+     * @param loadOption
+     * @param callback
+     * @param extendOption
+     * @return Bitmap
+     */
+    fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions? = null)
+
+    /**
+     * 额外配置支持
+     */
     interface ExtendedOptions {
         fun onOptionsInit(option: Any)
     }
 
+    /**
+     * 回调接口
+     */
     @UiThread
     interface Callback {
         fun onStart()
