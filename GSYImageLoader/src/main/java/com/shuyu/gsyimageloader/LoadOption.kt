@@ -10,9 +10,6 @@ class LoadOption {
     //默认图片
     var mDefaultImg: Int = 0
 
-    //圆角
-    var mCornerRadius: Int = 0
-
     //错误图片
     var mErrorImg: Int = 0
 
@@ -20,7 +17,7 @@ class LoadOption {
     var isCircle: Boolean = false
 
     //是否播放gif
-    var isPlayGif: Boolean = false
+    var isPlayGif: Boolean = true
 
     //大小
     var mSize: Point? = null
@@ -40,40 +37,45 @@ class LoadOption {
         return this
     }
 
-    //todo 对圆角的支持
-    fun setCornerRadius(cornerRadius: Int): LoadOption {
-        this.mCornerRadius = cornerRadius
-        return this
-    }
-
+    /**
+     * 是否圆形，目前支持fresco 、 glide
+     */
     fun setCircle(circle: Boolean): LoadOption {
         isCircle = circle
         return this
     }
 
-    //todo 对GIF的支持
+    /**
+     * 是否播放gif，只支持Fresco目前
+     */
     fun setPlayGif(playGif: Boolean): LoadOption {
         isPlayGif = playGif
         return this
     }
 
+    /**
+     * 目标尺寸
+     */
     fun setSize(size: Point?): LoadOption {
         this.mSize = size
         return this
     }
 
+    /**
+     * 播放目标 string、uri、int
+     */
     fun setUri(uri: Any): LoadOption {
         this.mUri = uri
         return this
     }
 
     /**
-     *
-     * https://github.com/wasabeef/picasso-transformations
-     * https://github.com/wasabeef/glide-transformations
-     * https://github.com/wasabeef/fresco-processors
+     * 图片处理
+     * picasso https://github.com/wasabeef/picasso-transformations
+     * glide   https://github.com/wasabeef/glide-transformations
+     * fresco  https://github.com/wasabeef/fresco-processors
      */
-    fun setTransformations(transform:Any): LoadOption  {
+    fun setTransformations(transform: Any): LoadOption {
         mTransformations.add(transform)
         return this
     }

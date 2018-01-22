@@ -1,5 +1,6 @@
 package com.example.gysimageloader
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -12,16 +13,20 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import com.bumptech.glide.request.RequestOptions
 import com.example.gysimageloader.process.fresco.BrightnessFilterPostprocessor
 import com.example.gysimageloader.process.glide.BlurTransformation
 import com.example.gysimageloader.process.picasso.ColorFilterTransformations
 import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.common.RotationOptions
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
 import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
 import com.shuyu.gsypicassoloader.GSYPicassoImageLoader
+import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.async
 import java.io.File
@@ -62,7 +67,7 @@ class MainActivity : AppCompatActivity() {
          */
         private fun getProcess(): Any? {
             var process: Any? = null
-            when (GSYApplication.instance.getInitImageLoader()) {
+            when (GSYApplication.sLoader) {
                 is GSYFrescoImageLoader -> {
                     process = BrightnessFilterPostprocessor(GSYApplication.instance, -0.8f)
                 }
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val adapter = if (GSYApplication.instance.getInitImageLoader() is GSYFrescoImageLoader) {
+        val adapter = if (GSYApplication.sLoader is GSYFrescoImageLoader) {
             ImageFrescoAdapter(this, GSYApplication.instance.mImageList)
         } else {
             ImageAdapter(this, GSYApplication.instance.mImageList)
@@ -165,6 +170,45 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * 额外配置处理
+     */
+    class ObjectExtendOption(private val position: Int) : IGSYImageLoader.ExtendedOptions {
+
+        /**
+         * @param option 配置对象
+         * Glide    com.bumptech.glide.request.RequestOptions
+         * Picasso  com.squareup.picasso.RequestCreator
+         * Fresco   com.facebook.imagepipeline.request.ImageRequestBuilder
+         */
+        @SuppressLint("CheckResult")
+        override fun onOptionsInit(option: Any) {
+            when (option) {
+                is RequestOptions -> {
+                    //Glide
+                    if (position == 6) {
+                        option.circleCrop()
+                        option.override(100, 100)
+                    }
+                }
+                is RequestCreator -> {
+                    //Picasso
+                    if (position == 2) {
+                        option.rotate(60F)
+                    }
+                }
+                is ImageRequestBuilder -> {
+                    //Fresco
+                    if (position == 2) {
+                        option.rotationOptions = RotationOptions.forceRotation(180)
+                    } else {
+                        option.rotationOptions = null
+                    }
+                }
+            }
+        }
+    }
+
     class ImageAdapter(private val context: Context, private val dataList: List<String>) : BaseAdapter() {
 
         override fun getView(p0: Int, convertView: View?, p2: ViewGroup?): View? {
@@ -190,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFail(error: Exception?) {
                 }
-            })
+            }, ObjectExtendOption(p0))
             return view
         }
 
@@ -237,7 +281,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFail(error: Exception?) {
                 }
-            })
+            }, ObjectExtendOption(p0))
             return view
         }
 
@@ -257,4 +301,5 @@ class MainActivity : AppCompatActivity() {
             var imageView: SimpleDraweeView? = null
         }
     }
+
 }
