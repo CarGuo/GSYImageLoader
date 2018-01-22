@@ -76,6 +76,12 @@ interface IGSYImageLoader {
         fun onOptionsInit(option: Any)
     }
 
+    //TODO cache size
+
+    //TODO cache path
+
+    //TODO image process
+
     /**
      * 回调接口
      */

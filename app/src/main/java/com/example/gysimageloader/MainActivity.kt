@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun getOption(url: String, po: Int = 0): LoadOption {
+            //TODO demo for extendOption
             return LoadOption()
                     .setDefaultImg(R.mipmap.ic_launcher)
                     .setErrorImg(R.mipmap.ic_launcher)
@@ -58,9 +59,9 @@ class MainActivity : AppCompatActivity() {
 
         clearCache.setOnClickListener {
             async {
-                //getLoader().clearCache()
+                getLoader().clearCache()
                 //getLoader().clearCacheKey(loadOption = getOption(GSYApplication.instance.mImageList[0]))
-                getLoader().clearCacheKey(GSYImageConst.CLEAR_ALL_CACHE, getOption(GSYApplication.instance.mImageList[0]))
+                //getLoader().clearCacheKey(GSYImageConst.CLEAR_ALL_CACHE, getOption(GSYApplication.instance.mImageList[0]))
                 //getLoader().clearCache(GSYImageConst.CLEAR_ALL_CACHE)
             }
         }
