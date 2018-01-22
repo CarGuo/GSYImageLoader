@@ -134,6 +134,9 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
             loadOption.mSize?.let {
                 request?.resize(it.x, it.y)
             }
+            if(loadOption.mTransformations.isNotEmpty()) {
+                request?.transform(loadOption.mTransformations as List<Transformation>)
+            }
             extendOption?.let {
                 extendOption.onOptionsInit(request!!)
             }

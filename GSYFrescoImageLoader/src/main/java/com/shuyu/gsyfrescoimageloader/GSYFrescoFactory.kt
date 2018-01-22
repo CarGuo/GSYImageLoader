@@ -11,6 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.core.ImagePipelineFactory
+import com.facebook.imagepipeline.request.BasePostprocessor
 import com.facebook.imagepipeline.request.ImageRequest
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.shuyu.gsyimageloader.IGSYImageLoader
@@ -81,6 +82,9 @@ interface GSYFrescoFactory {
             builder?.resizeOptions = ResizeOptions(loadOption.mSize!!.x, loadOption.mSize!!.y)
         } else {
             builder?.resizeOptions = null
+        }
+        if(loadOption.mTransformations.isNotEmpty()) {
+            builder?.postprocessor = loadOption.mTransformations[0] as BasePostprocessor
         }
         extendOption?.let {
             extendOption.onOptionsInit(builder!!)

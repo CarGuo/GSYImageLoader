@@ -50,6 +50,7 @@ android {
 
 dependencies {
     def androidDependencies = rootProject.ext.androidDependencies
+    def dataDependencies = rootProject.ext.dataDependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation androidDependencies.appcompat_v7
@@ -59,4 +60,6 @@ dependencies {
     implementation project(':GSYGIideLoader')
     implementation project(':GSYPicassoLoader')
     implementation project(':GSYFrescoImageLoader')
+
+    implementation dataDependencies.gpuImage
 }

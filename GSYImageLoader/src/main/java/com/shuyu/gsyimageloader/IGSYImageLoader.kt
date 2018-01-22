@@ -1,8 +1,5 @@
 package com.shuyu.gsyimageloader
 
-/**
- * Created by guoshuyu on 2018/1/17.
- */
 
 import android.graphics.Bitmap
 import android.support.annotation.UiThread

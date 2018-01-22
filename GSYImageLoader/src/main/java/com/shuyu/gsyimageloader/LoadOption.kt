@@ -1,6 +1,7 @@
 package com.shuyu.gsyimageloader
 
 import android.graphics.Point
+import java.util.HashMap
 
 /**
  * 图片加载配置
@@ -27,6 +28,8 @@ class LoadOption {
 
     //图片
     var mUri: Any? = null
+
+    val mTransformations: ArrayList<Any> = ArrayList()
 
     fun setDefaultImg(defaultImg: Int): LoadOption {
         this.mDefaultImg = defaultImg
@@ -65,5 +68,14 @@ class LoadOption {
         return this
     }
 
-
+    /**
+     *
+     * https://github.com/wasabeef/picasso-transformations
+     * https://github.com/wasabeef/glide-transformations
+     * https://github.com/wasabeef/fresco-processors
+     */
+    fun setTransformations(transform:Any): LoadOption  {
+        mTransformations.add(transform)
+        return this
+    }
 }

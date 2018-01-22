@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.disklrucache.DiskLruCache
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -134,7 +136,7 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
                 .setDefaultRequestOptions(getOption(loadOption, extendOption))
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressWarnings("CheckResult")
     private fun getOption(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): RequestOptions {
         val requestOptions = RequestOptions()
         if (loadOption.mErrorImg > 0) {
@@ -148,6 +150,9 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         }
         loadOption.mSize?.let {
             requestOptions.override(it.x, it.y)
+        }
+        if(loadOption.mTransformations.isNotEmpty()) {
+            requestOptions.transform(MultiTransformation(loadOption.mTransformations as ArrayList<Transformation<Bitmap>>))
         }
         extendOption?.let {
             extendOption.onOptionsInit(requestOptions)

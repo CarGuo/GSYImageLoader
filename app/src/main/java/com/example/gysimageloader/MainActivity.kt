@@ -2,6 +2,7 @@ package com.example.gysimageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,12 +12,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import com.example.gysimageloader.process.fresco.BrightnessFilterPostprocessor
+import com.example.gysimageloader.process.glide.BlurTransformation
+import com.example.gysimageloader.process.picasso.ColorFilterTransformations
 import com.facebook.drawee.view.SimpleDraweeView
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
-import com.shuyu.gsyimageloader.GSYImageConst
+import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
 import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
+import com.shuyu.gsypicassoloader.GSYPicassoImageLoader
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.async
 import java.io.File
@@ -30,13 +35,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun getOption(url: String, po: Int = 0): LoadOption {
-            //TODO demo for extendOption
-            return LoadOption()
+            val loadOption = LoadOption()
                     .setDefaultImg(R.mipmap.ic_launcher)
                     .setErrorImg(R.mipmap.ic_launcher)
                     .setCircle(po == 2)
                     .setSize(if (po == 1) Point(10, 10) else null)
                     .setUri(url)
+            val process = getProcess()
+            if (po == 3) {
+                process?.let {
+                    loadOption.setTransformations(process)
+                }
+            }
+            return loadOption
+        }
+
+        /**
+         *
+         */
+        private fun getProcess(): Any? {
+            var process: Any? = null
+            when (GSYApplication.instance.getInitImageLoader()) {
+                is GSYFrescoImageLoader -> {
+                    process = BrightnessFilterPostprocessor(GSYApplication.instance, -0.8f)
+                }
+                is GSYGlideImageLoader -> {
+                    process = BlurTransformation()
+                }
+                is GSYPicassoImageLoader -> {
+                    process = ColorFilterTransformations(Color.GREEN)
+                }
+            }
+            return process
         }
     }
 

@@ -47,8 +47,8 @@ class GSYApplication : Application() {
     }
 
     fun getInitImageLoader(): IGSYImageLoader {
-        return GSYGlideImageLoader(this)
-        //return GSYPicassoImageLoader(this)
+        //return GSYGlideImageLoader(this)
+        return GSYPicassoImageLoader(this)
         //return GSYFrescoImageLoader(this)
     }
 }
