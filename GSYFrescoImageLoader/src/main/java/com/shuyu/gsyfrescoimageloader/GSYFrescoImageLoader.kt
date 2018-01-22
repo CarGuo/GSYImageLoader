@@ -55,6 +55,10 @@ class GSYFrescoImageLoader(private val context: Context) : IGSYImageLoader, GSYF
         }
     }
 
+    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?) :Boolean {
+        val loadUri = getUri(loadOption.mUri)
+        return isCached(context, loadUri)
+    }
 
     override fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): File? {
         val loadUri = getUri(loadOption.mUri)

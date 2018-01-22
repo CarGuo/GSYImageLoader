@@ -17,6 +17,11 @@ import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
 import java.lang.IllegalStateException
 import java.io.File
+import com.bumptech.glide.signature.EmptySignature
+import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper
+import com.bumptech.glide.load.Key.STRING_CHARSET_NAME
+import com.bumptech.glide.load.Key
+import java.security.MessageDigest
 
 
 /**
@@ -69,6 +74,14 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         return future.submit().get()
     }
 
+
+    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
+        // 寻找缓存图片
+        val file = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
+                .get(OriginalKey(loadOption.mUri as String, EmptySignature.obtain()))
+        return file != null
+    }
+
     override fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Bitmap? {
         val future = loadImage(loadOption, extendOption)
                 .asBitmap().load(loadOption.mUri)
@@ -105,4 +118,34 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         return requestOptions
     }
 
+}
+
+/**
+ * Glide原图缓存Key
+ */
+private class OriginalKey constructor(private val id: String, private val signature: Key) : Key {
+
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o == null || javaClass != o.javaClass) {
+            return false
+        }
+
+        val that = o as OriginalKey?
+
+        return id == that!!.id && signature == that.signature
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + signature.hashCode()
+        return result
+    }
+
+    override fun updateDiskCacheKey(messageDigest: MessageDigest) {
+        messageDigest.update(id.toByteArray(charset(STRING_CHARSET_NAME)))
+        signature.updateDiskCacheKey(messageDigest)
+    }
 }

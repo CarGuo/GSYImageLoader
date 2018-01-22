@@ -48,6 +48,11 @@ class GSYPicassoImageLoader(private val context: Context) : IGSYImageLoader {
         return null
     }
 
+    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
+        //not support now
+        return false
+    }
+
     override fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Bitmap? {
         var bitmap: Bitmap? = null
         try {

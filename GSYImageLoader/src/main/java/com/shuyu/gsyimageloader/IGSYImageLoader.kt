@@ -24,6 +24,8 @@ interface IGSYImageLoader {
 
     fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions? = null)
 
+    fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null):Boolean
+
     interface ExtendedOptions {
         fun onOptionsInit(option: Any)
     }

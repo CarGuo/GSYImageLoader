@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         getCache.setOnClickListener {
+            val isCache = getLoader().isCache(getOption(GSYApplication.instance.mImageList[0]))
+            Debuger.printfLog("isCache " + isCache)
             async {
                 val file = getLoader().getLocalCache(getOption(GSYApplication.instance.mImageList[0]))
                 file?.let {
