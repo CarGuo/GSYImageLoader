@@ -2,7 +2,7 @@
 ## GSYImageLoader图片加载工具，集成Glide、Picasso、Fresco的kotlin工具类，一键切换图片加载，提供常用的图片相关功能接口
 
 [![](https://jitpack.io/v/CarGuo/GSYImageLoader.svg)](https://jitpack.io/#CarGuo/GSYImageLoader)
-!https://travis-ci.org/CarGuo/GSYImageLoader.svg?branch=master!:https://travis-ci.org/CarGuo/GSYImageLoader
+[![Build Status](https://travis-ci.org/CarGuo/GSYImageLoader.svg?branch=master)](https://travis-ci.org/CarGuo/GSYImageLoader)
 [![GitHub issues](https://img.shields.io/github/issues/CarGuo/GSYImageLoader.svg)](https://github.com/CarGuo/GSYImageLoader/issues)
 [![GitHub forks](https://img.shields.io/github/forks/CarGuo/GSYImageLoader.svg)](https://github.com/CarGuo/GSYImageLoader/network)
 [![GitHub stars](https://img.shields.io/github/stars/CarGuo/GSYImageLoader.svg)](https://github.com/CarGuo/GSYImageLoader/stargazers)
