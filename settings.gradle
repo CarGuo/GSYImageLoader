@@ -1,1 +1,1 @@
-include ':app', ':GSYImageLoader', ':GSYGIideLoader', ':GSYPicassoLoader', ':GSYFrescoImageLoader'
+include ':app', ':GSYImageLoader', ':GSYGlideLoader', ':GSYPicassoLoader', ':GSYFrescoImageLoader'

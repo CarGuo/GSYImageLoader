@@ -18,7 +18,6 @@ import java.io.IOException
  * Picasso图片加载
  * Created by guoshuyu on 2018/1/19.
  */
-
 class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Builder? = null) : IGSYImageLoader {
 
     private var mPicassoLoader: Picasso = if (builder != null) {

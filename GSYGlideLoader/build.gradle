@@ -39,11 +39,10 @@ dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation androidDependencies.appcompat_v7
+    implementation dataDependencies.glide
+    implementation dataDependencies.glideIntegration
 
     api project(':GSYImageLoader')
 
-    api dataDependencies.glide
-    api dataDependencies.glideIntegration
-    api dataDependencies.okhttp3
 
 }
