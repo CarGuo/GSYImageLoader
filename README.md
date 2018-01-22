@@ -74,6 +74,6 @@ GSYImageLoaderManager.sInstance.imageLoader().loadImage(loadOption, holder.image
 
 #### 更多使用请参考DEMO
 
-
+#### [API接口](https://github.com/CarGuo/GSYImageLoader/blob/master/API.md)
 
 [其他资料-Android图片加载开源库深度推荐](https://www.jianshu.com/p/cd058a924288)
