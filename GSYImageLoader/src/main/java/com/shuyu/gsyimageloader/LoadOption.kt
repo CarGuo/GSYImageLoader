@@ -19,8 +19,8 @@ class LoadOption {
     //是否圆形
     var isCircle: Boolean = false
 
-    //是否gif
-    var isAnima: Boolean = false
+    //是否播放gif
+    var isPlayGif: Boolean = false
 
     //大小
     var mSize: Point? = null
@@ -38,6 +38,7 @@ class LoadOption {
         return this
     }
 
+    //todo 对圆角的支持
     fun setCornerRadius(cornerRadius: Int): LoadOption {
         this.mCornerRadius = cornerRadius
         return this
@@ -48,8 +49,9 @@ class LoadOption {
         return this
     }
 
-    fun setAnima(anima: Boolean): LoadOption {
-        isAnima = anima
+    //todo 对GIF的支持
+    fun setPlayGif(playGif: Boolean): LoadOption {
+        isPlayGif = playGif
         return this
     }
 

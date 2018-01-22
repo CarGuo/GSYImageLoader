@@ -60,6 +60,15 @@ interface IGSYImageLoader {
      */
     fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Bitmap?
 
+
+    /**
+     * 获取本地缓存大小
+     */
+    fun getCacheSize():Long?
+
+
+    //TODO image process
+
     /**
      * 下载图片
      * @param loadOption
@@ -75,12 +84,6 @@ interface IGSYImageLoader {
     interface ExtendedOptions {
         fun onOptionsInit(option: Any)
     }
-
-    //TODO cache size
-
-    //TODO cache path
-
-    //TODO image process
 
     /**
      * 回调接口

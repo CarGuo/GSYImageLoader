@@ -17,6 +17,7 @@ import com.shuyu.gsyimageloader.IGSYImageLoader
 import com.shuyu.gsyimageloader.LoadOption
 
 /**
+ * Fresco 基础
  * Created by guoshuyu on 2018/1/19.
  */
 interface GSYFrescoFactory {
@@ -102,7 +103,7 @@ interface GSYFrescoFactory {
                               imageRequest: ImageRequest?, lowRequest: ImageRequest?): DraweeController {
         return Fresco.newDraweeControllerBuilder()
                 .setImageRequest(imageRequest)
-                .setAutoPlayAnimations(loadOption.isAnima)
+                .setAutoPlayAnimations(loadOption.isPlayGif)
                 //.setTapToRetryEnabled(fresco.getTapToRetryEnabled())
                 .setLowResImageRequest(lowRequest)
                 .setControllerListener(object : ControllerListener<Any> {

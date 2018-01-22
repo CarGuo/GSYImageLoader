@@ -100,6 +100,12 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
         return (resource?.get() as CloseableBitmap).underlyingBitmap
     }
 
+
+    override fun getCacheSize(): Long? {
+       return ImagePipelineFactory.getInstance()
+                .mainFileCache.size
+    }
+
     override fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {
         val imageRequest = buildImageRequestWithResource(loadOption, extendOption)
         val imagePipeline = Fresco.getImagePipeline()

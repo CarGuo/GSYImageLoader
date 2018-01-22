@@ -53,13 +53,13 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         val targetPath: Any? = loadOption.mUri
         when (targetPath) {
             is File -> {
-                Picasso.with(context).invalidate(targetPath)
+                mPicassoLoader.invalidate(targetPath)
             }
             is String -> {
-                Picasso.with(context).invalidate(targetPath)
+                mPicassoLoader.invalidate(targetPath)
             }
             is Uri -> {
-                Picasso.with(context).invalidate(targetPath)
+                mPicassoLoader.invalidate(targetPath)
             }
         }
     }
@@ -82,6 +82,10 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
             e.printStackTrace()
         }
         return bitmap
+    }
+
+    override fun getCacheSize(): Long? {
+        return mPicassoLoader.snapshot.size.toLong()
     }
 
     override fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {

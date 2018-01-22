@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.disklrucache.DiskLruCache
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -115,6 +116,13 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         val future = loadImage(loadOption, extendOption)
                 .asBitmap().load(loadOption.mUri)
         return future.submit().get()
+    }
+
+
+    override fun getCacheSize(): Long? {
+        val cache =  DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
+        val diskLruCache = ReflectionHelpers.getField<DiskLruCache>(cache, "diskLruCache")
+        return diskLruCache.size()
     }
 
     override fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {
