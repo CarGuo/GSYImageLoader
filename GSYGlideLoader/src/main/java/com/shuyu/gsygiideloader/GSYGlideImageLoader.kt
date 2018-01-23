@@ -32,12 +32,12 @@ import com.shuyu.gsyimageloader.GSYReflectionHelpers
 class GSYGlideImageLoader(private val context: Context) : GSYImageLoader {
 
 
-    override fun loadImage(GSYLoadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+    override fun loadImage(loadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
         if (target !is ImageView) {
             throw IllegalStateException("target must be ImageView")
         }
-        loadImage(GSYLoadOption, extendOption)
-                .load(GSYLoadOption.mUri)
+        loadImage(loadOption, extendOption)
+                .load(loadOption.mUri)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                         callback?.let {
@@ -69,15 +69,15 @@ class GSYGlideImageLoader(private val context: Context) : GSYImageLoader {
         }
     }
 
-    override fun clearCacheKey(type: Int, GSYLoadOption: GSYLoadOption) {
+    override fun clearCacheKey(type: Int, loadOption: GSYLoadOption) {
         val deleteDisk = {
             val diskCache = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-            val key = GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain())
+            val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain())
             diskCache.delete(key)
         }
         val deleteMemory = {
             try {
-                val key = GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain());
+                val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain());
                 val cache = GSYReflectionHelpers.getField<MemoryCache>(Glide.get(context.applicationContext), "memoryCache")
                 cache.remove(key)
             } catch (e: Exception) {
@@ -99,23 +99,23 @@ class GSYGlideImageLoader(private val context: Context) : GSYImageLoader {
         }
     }
 
-    override fun getLocalCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
-        val future = loadImage(GSYLoadOption, extendOption)
-                .asFile().load(GSYLoadOption.mUri)
+    override fun getLocalCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
+        val future = loadImage(loadOption, extendOption)
+                .asFile().load(loadOption.mUri)
         return future.submit().get()
     }
 
 
-    override fun isCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
+    override fun isCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
         // 寻找缓存图片
         val file = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-                .get(GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain()))
+                .get(GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain()))
         return file != null
     }
 
-    override fun getLocalCacheBitmap(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
-        val future = loadImage(GSYLoadOption, extendOption)
-                .asBitmap().load(GSYLoadOption.mUri)
+    override fun getLocalCacheBitmap(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
+        val future = loadImage(loadOption, extendOption)
+                .asBitmap().load(loadOption.mUri)
         return future.submit().get()
     }
 
@@ -126,32 +126,32 @@ class GSYGlideImageLoader(private val context: Context) : GSYImageLoader {
         return diskLruCache.size()
     }
 
-    override fun downloadOnly(GSYLoadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
-        loadImage(GSYLoadOption, extendOption).downloadOnly().load(GSYLoadOption.mUri).into(GSYImageDownLoadTarget(callback))
+    override fun downloadOnly(loadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+        loadImage(loadOption, extendOption).downloadOnly().load(loadOption.mUri).into(GSYImageDownLoadTarget(callback))
     }
 
-    private fun loadImage(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestManager {
+    private fun loadImage(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestManager {
         return Glide.with(context.applicationContext)
-                .setDefaultRequestOptions(getOption(GSYLoadOption, extendOption))
+                .setDefaultRequestOptions(getOption(loadOption, extendOption))
     }
 
     @SuppressWarnings("CheckResult")
-    private fun getOption(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestOptions {
+    private fun getOption(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestOptions {
         val requestOptions = RequestOptions()
-        if (GSYLoadOption.mErrorImg > 0) {
-            requestOptions.error(GSYLoadOption.mErrorImg)
+        if (loadOption.mErrorImg > 0) {
+            requestOptions.error(loadOption.mErrorImg)
         }
-        if (GSYLoadOption.mDefaultImg > 0) {
-            requestOptions.placeholder(GSYLoadOption.mDefaultImg)
+        if (loadOption.mDefaultImg > 0) {
+            requestOptions.placeholder(loadOption.mDefaultImg)
         }
-        if (GSYLoadOption.isCircle) {
+        if (loadOption.isCircle) {
             requestOptions.circleCrop()
         }
-        GSYLoadOption.mSize?.let {
+        loadOption.mSize?.let {
             requestOptions.override(it.x, it.y)
         }
-        if(GSYLoadOption.mTransformations.isNotEmpty()) {
-            requestOptions.transform(MultiTransformation(GSYLoadOption.mTransformations as ArrayList<Transformation<Bitmap>>))
+        if(loadOption.mTransformations.isNotEmpty()) {
+            requestOptions.transform(MultiTransformation(loadOption.mTransformations as ArrayList<Transformation<Bitmap>>))
         }
         extendOption?.let {
             extendOption.onOptionsInit(requestOptions)

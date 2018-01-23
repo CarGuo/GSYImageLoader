@@ -33,13 +33,13 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
         Fresco.initialize(context.applicationContext, config)
     }
 
-    override fun loadImage(GSYLoadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+    override fun loadImage(loadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
         val frescoView = target as SimpleDraweeView
         try {
-            initFrescoView(frescoView, GSYLoadOption)
-            val request = buildImageRequestWithResource(GSYLoadOption, extendOption)
-            val lowRequest = buildLowImageRequest(frescoView, GSYLoadOption, extendOption)
-            frescoView.controller = buildDraweeController(frescoView, GSYLoadOption, callback, request, lowRequest)
+            initFrescoView(frescoView, loadOption)
+            val request = buildImageRequestWithResource(loadOption, extendOption)
+            val lowRequest = buildLowImageRequest(frescoView, loadOption, extendOption)
+            frescoView.controller = buildDraweeController(frescoView, loadOption, callback, request, lowRequest)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -57,8 +57,8 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
         }
     }
 
-    override fun clearCacheKey(type: Int, GSYLoadOption: GSYLoadOption) {
-        val loadUri = getUri(GSYLoadOption.mUri)
+    override fun clearCacheKey(type: Int, loadOption: GSYLoadOption) {
+        val loadUri = getUri(loadOption.mUri)
         when (type) {
             GSYImageConst.CLEAR_ALL_CACHE -> {
                 Fresco.getImagePipeline().evictFromCache(loadUri)
@@ -71,13 +71,13 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
         }
     }
 
-    override fun isCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
-        val loadUri = getUri(GSYLoadOption.mUri)
+    override fun isCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
+        val loadUri = getUri(loadOption.mUri)
         return isCached(context, loadUri)
     }
 
-    override fun getLocalCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
-        val loadUri = getUri(GSYLoadOption.mUri)
+    override fun getLocalCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
+        val loadUri = getUri(loadOption.mUri)
         if (!isCached(context, loadUri))
             return null
         val imageRequest = ImageRequest.fromUri(loadUri)
@@ -88,11 +88,11 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
         return (resource as FileBinaryResource).file
     }
 
-    override fun getLocalCacheBitmap(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
-        val loadUri = getUri(GSYLoadOption.mUri)
+    override fun getLocalCacheBitmap(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
+        val loadUri = getUri(loadOption.mUri)
         if (!isCached(context, loadUri))
             return null
-        val request = buildImageRequestWithResource(GSYLoadOption, extendOption)
+        val request = buildImageRequestWithResource(loadOption, extendOption)
         val cacheKey = DefaultCacheKeyFactory.getInstance()
                 .getBitmapCacheKey(request, context)
         val resource = ImagePipelineFactory.getInstance()
@@ -106,13 +106,13 @@ class GSYFrescoImageLoader(private val context: Context, private var config: Ima
                 .mainFileCache.size
     }
 
-    override fun downloadOnly(GSYLoadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
-        val imageRequest = buildImageRequestWithResource(GSYLoadOption, extendOption)
+    override fun downloadOnly(loadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+        val imageRequest = buildImageRequestWithResource(loadOption, extendOption)
         val imagePipeline = Fresco.getImagePipeline()
         val dataSource2 = imagePipeline.prefetchToDiskCache(imageRequest, context)
         dataSource2.subscribe(object : BaseDataSubscriber<Void>() {
             override fun onNewResultImpl(dataSource: DataSource<Void>) {
-                val file = getLocalCache(GSYLoadOption, extendOption)
+                val file = getLocalCache(loadOption, extendOption)
                 callback?.onSuccess(file)
             }
 

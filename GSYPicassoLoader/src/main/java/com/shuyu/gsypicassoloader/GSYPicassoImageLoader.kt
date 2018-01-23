@@ -13,6 +13,7 @@ import com.squareup.picasso.*
 import com.squareup.picasso.Target
 import java.io.File
 import java.io.IOException
+import java.lang.IllegalStateException
 
 /**
  * Picasso图片加载
@@ -26,9 +27,12 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         Picasso.with(context)
     }
 
-    override fun loadImage(GSYLoadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
-        getRequest(GSYLoadOption, extendOption)?.let {
-            it.into(target as ImageView, object : Callback {
+    override fun loadImage(loadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+        if (target !is ImageView) {
+            throw IllegalStateException("target must be ImageView")
+        }
+        getRequest(loadOption, extendOption)?.let {
+            it.into(target, object : Callback {
                 override fun onSuccess() {
                     callback?.onSuccess(null)
                 }
@@ -49,8 +53,8 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         }
     }
 
-    override fun clearCacheKey(type: Int, GSYLoadOption: GSYLoadOption) {
-        val targetPath: Any? = GSYLoadOption.mUri
+    override fun clearCacheKey(type: Int, loadOption: GSYLoadOption) {
+        val targetPath: Any? = loadOption.mUri
         when (targetPath) {
             is File -> {
                 mPicassoLoader.invalidate(targetPath)
@@ -64,20 +68,20 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         }
     }
 
-    override fun getLocalCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
+    override fun getLocalCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
         Log.e(javaClass::getName.toString(), "not support for picasso")
         return null
     }
 
-    override fun isCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
+    override fun isCache(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
         Log.e(javaClass::getName.toString(), "not support for picasso")
         return false
     }
 
-    override fun getLocalCacheBitmap(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
+    override fun getLocalCacheBitmap(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
         var bitmap: Bitmap? = null
         try {
-            bitmap = getRequest(GSYLoadOption, extendOption)?.get()
+            bitmap = getRequest(loadOption, extendOption)?.get()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -88,8 +92,8 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         return mPicassoLoader.snapshot.size.toLong()
     }
 
-    override fun downloadOnly(GSYLoadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
-        getRequest(GSYLoadOption, extendOption)?.into(object : Target {
+    override fun downloadOnly(loadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+        getRequest(loadOption, extendOption)?.into(object : Target {
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 callback?.onStart()
             }
@@ -104,8 +108,8 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
         })
     }
 
-    private fun getRequest(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestCreator? {
-        val targetPath: Any? = GSYLoadOption.mUri
+    private fun getRequest(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestCreator? {
+        val targetPath: Any? = loadOption.mUri
         var request: RequestCreator? = null
         when (targetPath) {
             is File -> {
@@ -122,23 +126,23 @@ class GSYPicassoImageLoader(private val context: Context, builder: Picasso.Build
             }
         }
         request?.let {
-            if (GSYLoadOption.mErrorImg > 0) {
-                it.error(GSYLoadOption.mErrorImg)
+            if (loadOption.mErrorImg > 0) {
+                it.error(loadOption.mErrorImg)
             }
-            if (GSYLoadOption.mDefaultImg > 0) {
-                it.placeholder(GSYLoadOption.mDefaultImg)
+            if (loadOption.mDefaultImg > 0) {
+                it.placeholder(loadOption.mDefaultImg)
             }
-            if (GSYLoadOption.isCircle) {
+            if (loadOption.isCircle) {
 
             }
-            GSYLoadOption.mSize?.let {
+            loadOption.mSize?.let {
                 request?.resize(it.x, it.y)
             }
-            if (GSYLoadOption.mTransformations.isNotEmpty()) {
-                request?.transform(GSYLoadOption.mTransformations as List<Transformation>)
+            if (loadOption.mTransformations.isNotEmpty()) {
+                request?.transform(loadOption.mTransformations as List<Transformation>)
             }
             extendOption?.let {
-                extendOption.onOptionsInit(request!!)
+                extendOption.onOptionsInit(request)
             }
         }
         return request

@@ -48,22 +48,22 @@ interface GSYFrescoFactory {
         return loadUri
     }
 
-    fun initFrescoView(simpleDraweeView: SimpleDraweeView, GSYLoadOption: GSYLoadOption) {
-        if (GSYLoadOption.mDefaultImg > 0) {
-            simpleDraweeView.hierarchy.setPlaceholderImage(GSYLoadOption.mDefaultImg)
+    fun initFrescoView(simpleDraweeView: SimpleDraweeView, loadOption: GSYLoadOption) {
+        if (loadOption.mDefaultImg > 0) {
+            simpleDraweeView.hierarchy.setPlaceholderImage(loadOption.mDefaultImg)
         }
-        if (GSYLoadOption.mErrorImg > 0) {
-            simpleDraweeView.hierarchy.setFailureImage(GSYLoadOption.mErrorImg)
+        if (loadOption.mErrorImg > 0) {
+            simpleDraweeView.hierarchy.setFailureImage(loadOption.mErrorImg)
         }
-        if (GSYLoadOption.isCircle) {
+        if (loadOption.isCircle) {
             setRoundingParmas(simpleDraweeView, getRoundingParams(simpleDraweeView).setRoundAsCircle(true))
         } else {
             setRoundingParmas(simpleDraweeView, getRoundingParams(simpleDraweeView).setRoundAsCircle(false))
         }
     }
 
-    fun buildImageRequestWithResource(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): ImageRequest? {
-        val remoteTarget = GSYLoadOption.mUri
+    fun buildImageRequestWithResource(loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): ImageRequest? {
+        val remoteTarget = loadOption.mUri
         var builder: ImageRequestBuilder? = null
         when (remoteTarget) {
             is Int -> {
@@ -78,21 +78,21 @@ interface GSYFrescoFactory {
                 builder = ImageRequestBuilder.newBuilderWithSource(uri)
             }
         }
-        if (GSYLoadOption.mSize != null) {
-            builder?.resizeOptions = ResizeOptions(GSYLoadOption.mSize!!.x, GSYLoadOption.mSize!!.y)
+        if (loadOption.mSize != null) {
+            builder?.resizeOptions = ResizeOptions(loadOption.mSize!!.x, loadOption.mSize!!.y)
         } else {
             builder?.resizeOptions = null
         }
-        if(GSYLoadOption.mTransformations.isNotEmpty()) {
-            builder?.postprocessor = GSYLoadOption.mTransformations[0] as BasePostprocessor
+        if(loadOption.mTransformations.isNotEmpty()) {
+            builder?.postprocessor = loadOption.mTransformations[0] as BasePostprocessor
         }
         extendOption?.let {
-            extendOption.onOptionsInit(builder!!)
+            extendOption.onOptionsInit(builder)
         }
         return builder?.build()
     }
 
-    fun buildLowImageRequest(simpleDraweeView: SimpleDraweeView, GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): ImageRequest? {
+    fun buildLowImageRequest(simpleDraweeView: SimpleDraweeView, loadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): ImageRequest? {
         /*var lowThumbnail: String? = null
         if (TextUtils.isEmpty(fresco.getLowThumbnailUrl())) {
             return null
@@ -103,11 +103,11 @@ interface GSYFrescoFactory {
         return null
     }
 
-    fun buildDraweeController(simpleDraweeView: SimpleDraweeView, GSYLoadOption: GSYLoadOption, callback: GSYImageLoader.Callback?,
+    fun buildDraweeController(simpleDraweeView: SimpleDraweeView, loadOption: GSYLoadOption, callback: GSYImageLoader.Callback?,
                               imageRequest: ImageRequest?, lowRequest: ImageRequest?): DraweeController {
         return Fresco.newDraweeControllerBuilder()
                 .setImageRequest(imageRequest)
-                .setAutoPlayAnimations(GSYLoadOption.isPlayGif)
+                .setAutoPlayAnimations(loadOption.isPlayGif)
                 //.setTapToRetryEnabled(fresco.getTapToRetryEnabled())
                 .setLowResImageRequest(lowRequest)
                 .setControllerListener(object : ControllerListener<Any> {

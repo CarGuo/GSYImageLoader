@@ -28,6 +28,7 @@ ext {
     glideVersion = '4.5.0'
     okhttpVersion = '3.9.1'
     picassoVersion = '2.5.2'
+    universalVersion = '1.9.5'
 
     gsyImageLoaderVersion = 'v1.0.0'
 
@@ -48,16 +49,18 @@ ext {
     ]
 
     dataDependencies = [
-            fresco          : "com.facebook.fresco:fresco:${frescoVersion}",
-            frescoGif       : "com.facebook.fresco:animated-gif:${frescoVersion}",
-            frescoPhoto     : "me.relex:photodraweeview:${frescoPhoto}",
-            gpuImage        : "jp.co.cyberagent.android.gpuimage:gpuimage-library:${gpuImage}",
+            fresco              : "com.facebook.fresco:fresco:${frescoVersion}",
+            frescoGif           : "com.facebook.fresco:animated-gif:${frescoVersion}",
+            frescoPhoto         : "me.relex:photodraweeview:${frescoPhoto}",
+            gpuImage            : "jp.co.cyberagent.android.gpuimage:gpuimage-library:${gpuImage}",
 
-            glide           : "com.github.bumptech.glide:glide:$glideVersion",
-            glideIntegration: "com.github.bumptech.glide:okhttp3-integration:$glideVersion",
-            okhttp3         : "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            glide               : "com.github.bumptech.glide:glide:$glideVersion",
+            glideIntegration    : "com.github.bumptech.glide:okhttp3-integration:$glideVersion",
+            okhttp3             : "com.squareup.okhttp3:okhttp:$okhttpVersion",
 
-            picasso         : "com.squareup.picasso:picasso:$picassoVersion",
+            picasso             : "com.squareup.picasso:picasso:$picassoVersion",
+
+            universalimageloader: "com.nostra13.universalimageloader:universal-image-loader:$universalVersion",
 
 
     ]

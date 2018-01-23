@@ -63,6 +63,7 @@ dependencies {
     implementation project(':GSYFrescoImageLoader')
 
 
+    implementation dataDependencies.universalimageloader
     //implementation "com.github.CarGuo.GSYImageLoader:GSYGlideLoader:$gsyImageLoaderVersion"
 
     //选择你需要的

@@ -28,6 +28,4 @@ class GSYImageDownLoadTarget constructor(private val mCallback: GSYImageLoader.C
         mCallback?.onFail(null)
     }
 
-
-
 }

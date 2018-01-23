@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
          * Fresco   com.facebook.imagepipeline.request.ImageRequestBuilder
          */
         @SuppressLint("CheckResult")
-        override fun onOptionsInit(option: Any) {
+        override fun onOptionsInit(option: Any?) {
             when (option) {
                 is RequestOptions -> {
                     //Glide

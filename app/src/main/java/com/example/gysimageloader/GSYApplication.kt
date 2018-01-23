@@ -1,6 +1,7 @@
 package com.example.gysimageloader
 
 import android.app.Application
+import com.example.gysimageloader.process.custom.CustomLoader
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
@@ -53,5 +54,6 @@ class GSYApplication : Application() {
         //return GSYGlideImageLoader(this)
         //return GSYPicassoImageLoader(this)
         return GSYFrescoImageLoader(this)
+        //return CustomLoader(this)
     }
 }
