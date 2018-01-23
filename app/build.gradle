@@ -56,18 +56,19 @@ dependencies {
     implementation androidDependencies.appcompat_v7
     implementation androidDependencies.support_v4
     implementation androidDependencies.kotlinAnko
-    //implementation project(':GSYImageLoader')
-    //implementation project(':GSYGlideLoader')
-    //implementation project(':GSYPicassoLoader')
-    //implementation project(':GSYFrescoImageLoader')
+
+    implementation project(':GSYImageLoader')
+    implementation project(':GSYGlideLoader')
+    implementation project(':GSYPicassoLoader')
+    implementation project(':GSYFrescoImageLoader')
 
 
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYGlideLoader:v1.0.0'
+    //implementation "com.github.CarGuo.GSYImageLoader:GSYGlideLoader:$gsyImageLoaderVersion"
 
     //选择你需要的
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYPicassoLoader:v1.0.0'
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYFrescoImageLoader:v1.0.0'
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYImageLoader:v1.0.0'
+    //implementation "com.github.CarGuo.GSYImageLoader:GSYPicassoLoader:$gsyImageLoaderVersion"
+    //implementation "com.github.CarGuo.GSYImageLoader:GSYFrescoImageLoader:$gsyImageLoaderVersion"
+    //implementation "com.github.CarGuo.GSYImageLoader:GSYImageLoader:$gsyImageLoaderVersion"
 
     implementation dataDependencies.gpuImage
 }

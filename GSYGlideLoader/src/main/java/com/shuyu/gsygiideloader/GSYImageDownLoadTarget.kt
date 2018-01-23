@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.shuyu.gsyimageloader.IGSYImageLoader
+import com.shuyu.gsyimageloader.GSYImageLoader
 
 import java.io.File
 
@@ -12,7 +12,7 @@ import java.io.File
  * Glide 图片下载对象
  * Created by guoshuyu on 2018/1/18.
  */
-class GSYImageDownLoadTarget constructor(private val mCallback: IGSYImageLoader.Callback?) : SimpleTarget<File>() {
+class GSYImageDownLoadTarget constructor(private val mCallback: GSYImageLoader.Callback?) : SimpleTarget<File>() {
 
     override fun onResourceReady(resource: File, transition: Transition<in File>?) {
         mCallback?.onSuccess(resource)

@@ -23,8 +23,8 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
-import com.shuyu.gsyimageloader.IGSYImageLoader
-import com.shuyu.gsyimageloader.LoadOption
+import com.shuyu.gsyimageloader.GSYImageLoader
+import com.shuyu.gsyimageloader.GSYLoadOption
 import com.shuyu.gsypicassoloader.GSYPicassoImageLoader
 import com.squareup.picasso.RequestCreator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,15 +39,15 @@ class MainActivity : AppCompatActivity() {
         /**
          * 获取当前加载器
          */
-        private fun getLoader(): IGSYImageLoader {
+        private fun getLoader(): GSYImageLoader {
             return GSYImageLoaderManager.sInstance.imageLoader()
         }
 
         /**
          * 获取图片加载配置
          */
-        private fun getOption(url: String, po: Int = 0): LoadOption {
-            val loadOption = LoadOption()
+        private fun getOption(url: String, po: Int = 0): GSYLoadOption {
+            val loadOption = GSYLoadOption()
                     .setDefaultImg(R.mipmap.ic_launcher)
                     .setErrorImg(R.mipmap.ic_launcher)
                     .setCircle(po == 2)
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         clearCache.setOnClickListener {
             async {
                 getLoader().clearCache()
-                //getLoader().clearCacheKey(loadOption = getOption(GSYApplication.instance.mImageList[0]))
+                //getLoader().clearCacheKey(GSYLoadOption = getOption(GSYApplication.instance.mImageList[0]))
                 //getLoader().clearCacheKey(GSYImageConst.CLEAR_ALL_CACHE, getOption(GSYApplication.instance.mImageList[0]))
                 //getLoader().clearCache(GSYImageConst.CLEAR_ALL_CACHE)
             }
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
          * 下载图片
          */
         downLoad.setOnClickListener {
-            getLoader().downloadOnly(getOption(GSYApplication.instance.mImageList[0]), object : IGSYImageLoader.Callback {
+            getLoader().downloadOnly(getOption(GSYApplication.instance.mImageList[0]), object : GSYImageLoader.Callback {
                 override fun onStart() {
                     Debuger.printfLog("download onStart")
                 }
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * 额外配置处理
      */
-    class ObjectExtendOption(private val position: Int) : IGSYImageLoader.ExtendedOptions {
+    class ObjectExtendOption(private val position: Int) : GSYImageLoader.ExtendedOptions {
 
         /**
          * @param option 配置对象
@@ -224,7 +224,7 @@ class MainActivity : AppCompatActivity() {
                 holder = convertView.tag as ViewHolder
             }
             val loadOption = getOption(dataList[p0], p0)
-            getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
+            getLoader().loadImage(loadOption, holder.imageView, object : GSYImageLoader.Callback {
                 override fun onStart() {
 
                 }
@@ -271,7 +271,7 @@ class MainActivity : AppCompatActivity() {
                 holder = convertView.tag as ViewHolder
             }
             val loadOption = getOption(dataList[p0], p0)
-            getLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
+            getLoader().loadImage(loadOption, holder.imageView, object : GSYImageLoader.Callback {
                 override fun onStart() {
 
                 }

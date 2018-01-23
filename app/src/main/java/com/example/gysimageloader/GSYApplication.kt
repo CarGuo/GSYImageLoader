@@ -4,7 +4,7 @@ import android.app.Application
 import com.shuyu.gsyfrescoimageloader.GSYFrescoImageLoader
 import com.shuyu.gsygiideloader.GSYGlideImageLoader
 import com.shuyu.gsyimageloader.GSYImageLoaderManager
-import com.shuyu.gsyimageloader.IGSYImageLoader
+import com.shuyu.gsyimageloader.GSYImageLoader
 import com.shuyu.gsypicassoloader.GSYPicassoImageLoader
 import kotlin.properties.Delegates
 
@@ -19,7 +19,7 @@ class GSYApplication : Application() {
     companion object {
         //委托notNull，这个值在被获取之前没有被分配，它就会抛出一个异常。
         var instance: GSYApplication by Delegates.notNull()
-        var sLoader: IGSYImageLoader by Delegates.notNull()
+        var sLoader: GSYImageLoader by Delegates.notNull()
     }
 
     override fun onCreate() {
@@ -49,7 +49,7 @@ class GSYApplication : Application() {
 
     }
 
-    private fun getInitImageLoader(): IGSYImageLoader {
+    private fun getInitImageLoader(): GSYImageLoader {
         //return GSYGlideImageLoader(this)
         //return GSYPicassoImageLoader(this)
         return GSYFrescoImageLoader(this)

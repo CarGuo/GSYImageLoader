@@ -22,17 +22,17 @@ fun <T : IGSYImageLoader> imageLoaderExtend(): T
 
 ```
 
-[2、IGSYImageLoader](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/IGSYImageLoader.kt)
+[2、IGSYImageLoader](https://github.com/CarGuo/GSYImageLoader/blob/master/GSYImageLoader/src/main/java/com/shuyu/gsyimageloader/GSYImageLoader.kt)
 
 ```
     /**
      * 加载图片
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      * @param target 加载目标对象，ImageView or SimpleDraweeView
      * @param callback 加载回调
      * @param extendOption 额外配置接口
      */
-    fun loadImage(loadOption: LoadOption, target: Any?, callback: Callback?, extendOption: ExtendedOptions? = null)
+    fun loadImage(GSYLoadOption: LoadOption, target: Any?, callback: Callback?, extendOption: ExtendedOptions? = null)
 
     /**
      * 清除缓存
@@ -43,33 +43,33 @@ fun <T : IGSYImageLoader> imageLoaderExtend(): T
     /**
      * 清除指定缓存
      * @param type GSYImageConst，清除类型
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      */
-    fun clearCacheKey(type: Int = GSYImageConst.CLEAR_DISK_CACHE, loadOption: LoadOption)
+    fun clearCacheKey(type: Int = GSYImageConst.CLEAR_DISK_CACHE, GSYLoadOption: LoadOption)
 
     /**
      * 是否已经缓存到本地
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      * @param extendOption 额外配置接口
      * @return Boolean 是否已经缓存到本地
      */
-    fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Boolean
+    fun isCache(GSYLoadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Boolean
 
     /**
      * 获取本地缓存
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      * @param extendOption 额外配置接口
      * @return File
      */
-    fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): File?
+    fun getLocalCache(GSYLoadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): File?
 
     /**
      * 获取本地缓存bitmap
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      * @param extendOption 额外配置接口
      * @return Bitmap
      */
-    fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Bitmap?
+    fun getLocalCacheBitmap(GSYLoadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions? = null): Bitmap?
 
 
     /**
@@ -81,12 +81,12 @@ fun <T : IGSYImageLoader> imageLoaderExtend(): T
 
     /**
      * 下载图片
-     * @param loadOption 加载图片配置
+     * @param GSYLoadOption 加载图片配置
      * @param callback 加载回调
      * @param extendOption 额外配置接口
      * @return Bitmap
      */
-    fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions? = null)
+    fun downloadOnly(GSYLoadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions? = null)
 
     /**
      * 额外配置支持

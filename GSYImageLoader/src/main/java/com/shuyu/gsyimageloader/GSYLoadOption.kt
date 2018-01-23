@@ -5,7 +5,7 @@ import android.graphics.Point
 /**
  * 图片加载配置
  */
-class LoadOption {
+class GSYLoadOption {
 
     //默认图片
     var mDefaultImg: Int = 0
@@ -27,12 +27,12 @@ class LoadOption {
 
     val mTransformations: ArrayList<Any> = ArrayList()
 
-    fun setDefaultImg(defaultImg: Int): LoadOption {
+    fun setDefaultImg(defaultImg: Int): GSYLoadOption {
         this.mDefaultImg = defaultImg
         return this
     }
 
-    fun setErrorImg(errorImg: Int): LoadOption {
+    fun setErrorImg(errorImg: Int): GSYLoadOption {
         this.mErrorImg = errorImg
         return this
     }
@@ -40,7 +40,7 @@ class LoadOption {
     /**
      * 是否圆形，目前支持fresco 、 glide
      */
-    fun setCircle(circle: Boolean): LoadOption {
+    fun setCircle(circle: Boolean): GSYLoadOption {
         isCircle = circle
         return this
     }
@@ -48,7 +48,7 @@ class LoadOption {
     /**
      * 是否播放gif，只支持Fresco目前
      */
-    fun setPlayGif(playGif: Boolean): LoadOption {
+    fun setPlayGif(playGif: Boolean): GSYLoadOption {
         isPlayGif = playGif
         return this
     }
@@ -56,7 +56,7 @@ class LoadOption {
     /**
      * 目标尺寸
      */
-    fun setSize(size: Point?): LoadOption {
+    fun setSize(size: Point?): GSYLoadOption {
         this.mSize = size
         return this
     }
@@ -64,7 +64,7 @@ class LoadOption {
     /**
      * 播放目标 string、uri、int
      */
-    fun setUri(uri: Any): LoadOption {
+    fun setUri(uri: Any): GSYLoadOption {
         this.mUri = uri
         return this
     }
@@ -75,7 +75,7 @@ class LoadOption {
      * glide   https://github.com/wasabeef/glide-transformations
      * fresco  https://github.com/wasabeef/fresco-processors
      */
-    fun setTransformations(transform: Any): LoadOption {
+    fun setTransformations(transform: Any): GSYLoadOption {
         mTransformations.add(transform)
         return this
     }

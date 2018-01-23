@@ -39,9 +39,9 @@ dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation androidDependencies.appcompat_v7
-    implementation dataDependencies.fresco
-    implementation dataDependencies.frescoGif
+    api dataDependencies.fresco
+    api dataDependencies.frescoGif
 
-    api project(':GSYImageLoader')
+    implementation project(':GSYImageLoader')
 
 }

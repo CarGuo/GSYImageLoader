@@ -65,7 +65,7 @@ dependencies {
 #### 2、加载图片
 
 ```
-GSYImageLoaderManager.sInstance.imageLoader().loadImage(loadOption, holder.imageView, object : IGSYImageLoader.Callback {
+GSYImageLoaderManager.sInstance.imageLoader().loadImage(GSYLoadOption, holder.imageView, object : IGSYImageLoader.Callback {
        override fun onStart() {
 
        }

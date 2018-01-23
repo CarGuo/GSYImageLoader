@@ -1,6 +1,5 @@
 package com.shuyu.gsygiideloader
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -16,29 +15,29 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.shuyu.gsyimageloader.GSYImageConst
-import com.shuyu.gsyimageloader.IGSYImageLoader
-import com.shuyu.gsyimageloader.LoadOption
+import com.shuyu.gsyimageloader.GSYImageLoader
+import com.shuyu.gsyimageloader.GSYLoadOption
 import java.lang.IllegalStateException
 import java.io.File
 import com.bumptech.glide.signature.EmptySignature
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper
 import com.bumptech.glide.load.engine.cache.MemoryCache
-import com.shuyu.gsyimageloader.ReflectionHelpers
+import com.shuyu.gsyimageloader.GSYReflectionHelpers
 
 
 /**
  * Glide 图片加载
  * Created by guoshuyu on 2018/1/18.
  */
-class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
+class GSYGlideImageLoader(private val context: Context) : GSYImageLoader {
 
 
-    override fun loadImage(loadOption: LoadOption, target: Any?, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {
+    override fun loadImage(GSYLoadOption: GSYLoadOption, target: Any?, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
         if (target !is ImageView) {
             throw IllegalStateException("target must be ImageView")
         }
-        loadImage(loadOption, extendOption)
-                .load(loadOption.mUri)
+        loadImage(GSYLoadOption, extendOption)
+                .load(GSYLoadOption.mUri)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                         callback?.let {
@@ -70,16 +69,16 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         }
     }
 
-    override fun clearCacheKey(type: Int, loadOption: LoadOption) {
+    override fun clearCacheKey(type: Int, GSYLoadOption: GSYLoadOption) {
         val deleteDisk = {
             val diskCache = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-            val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain())
+            val key = GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain())
             diskCache.delete(key)
         }
         val deleteMemory = {
             try {
-                val key = GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain());
-                val cache = ReflectionHelpers.getField<MemoryCache>(Glide.get(context.applicationContext), "memoryCache")
+                val key = GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain());
+                val cache = GSYReflectionHelpers.getField<MemoryCache>(Glide.get(context.applicationContext), "memoryCache")
                 cache.remove(key)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -100,59 +99,59 @@ class GSYGlideImageLoader(private val context: Context) : IGSYImageLoader {
         }
     }
 
-    override fun getLocalCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): File? {
-        val future = loadImage(loadOption, extendOption)
-                .asFile().load(loadOption.mUri)
+    override fun getLocalCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): File? {
+        val future = loadImage(GSYLoadOption, extendOption)
+                .asFile().load(GSYLoadOption.mUri)
         return future.submit().get()
     }
 
 
-    override fun isCache(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Boolean {
+    override fun isCache(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Boolean {
         // 寻找缓存图片
         val file = DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-                .get(GSYGlideCacheKey(loadOption.mUri as String, EmptySignature.obtain()))
+                .get(GSYGlideCacheKey(GSYLoadOption.mUri as String, EmptySignature.obtain()))
         return file != null
     }
 
-    override fun getLocalCacheBitmap(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): Bitmap? {
-        val future = loadImage(loadOption, extendOption)
-                .asBitmap().load(loadOption.mUri)
+    override fun getLocalCacheBitmap(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): Bitmap? {
+        val future = loadImage(GSYLoadOption, extendOption)
+                .asBitmap().load(GSYLoadOption.mUri)
         return future.submit().get()
     }
 
 
     override fun getCacheSize(): Long? {
         val cache =  DiskLruCacheWrapper.create(Glide.getPhotoCacheDir(context), (250 * 1024 * 1024).toLong())
-        val diskLruCache = ReflectionHelpers.getField<DiskLruCache>(cache, "diskLruCache")
+        val diskLruCache = GSYReflectionHelpers.getField<DiskLruCache>(cache, "diskLruCache")
         return diskLruCache.size()
     }
 
-    override fun downloadOnly(loadOption: LoadOption, callback: IGSYImageLoader.Callback?, extendOption: IGSYImageLoader.ExtendedOptions?) {
-        loadImage(loadOption, extendOption).downloadOnly().load(loadOption.mUri).into(GSYImageDownLoadTarget(callback))
+    override fun downloadOnly(GSYLoadOption: GSYLoadOption, callback: GSYImageLoader.Callback?, extendOption: GSYImageLoader.ExtendedOptions?) {
+        loadImage(GSYLoadOption, extendOption).downloadOnly().load(GSYLoadOption.mUri).into(GSYImageDownLoadTarget(callback))
     }
 
-    private fun loadImage(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): RequestManager {
+    private fun loadImage(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestManager {
         return Glide.with(context.applicationContext)
-                .setDefaultRequestOptions(getOption(loadOption, extendOption))
+                .setDefaultRequestOptions(getOption(GSYLoadOption, extendOption))
     }
 
     @SuppressWarnings("CheckResult")
-    private fun getOption(loadOption: LoadOption, extendOption: IGSYImageLoader.ExtendedOptions?): RequestOptions {
+    private fun getOption(GSYLoadOption: GSYLoadOption, extendOption: GSYImageLoader.ExtendedOptions?): RequestOptions {
         val requestOptions = RequestOptions()
-        if (loadOption.mErrorImg > 0) {
-            requestOptions.error(loadOption.mErrorImg)
+        if (GSYLoadOption.mErrorImg > 0) {
+            requestOptions.error(GSYLoadOption.mErrorImg)
         }
-        if (loadOption.mDefaultImg > 0) {
-            requestOptions.placeholder(loadOption.mDefaultImg)
+        if (GSYLoadOption.mDefaultImg > 0) {
+            requestOptions.placeholder(GSYLoadOption.mDefaultImg)
         }
-        if (loadOption.isCircle) {
+        if (GSYLoadOption.isCircle) {
             requestOptions.circleCrop()
         }
-        loadOption.mSize?.let {
+        GSYLoadOption.mSize?.let {
             requestOptions.override(it.x, it.y)
         }
-        if(loadOption.mTransformations.isNotEmpty()) {
-            requestOptions.transform(MultiTransformation(loadOption.mTransformations as ArrayList<Transformation<Bitmap>>))
+        if(GSYLoadOption.mTransformations.isNotEmpty()) {
+            requestOptions.transform(MultiTransformation(GSYLoadOption.mTransformations as ArrayList<Transformation<Bitmap>>))
         }
         extendOption?.let {
             extendOption.onOptionsInit(requestOptions)

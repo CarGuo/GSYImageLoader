@@ -29,6 +29,7 @@ ext {
     okhttpVersion = '3.9.1'
     picassoVersion = '2.5.2'
 
+    gsyImageLoaderVersion = 'v1.0.0'
 
     androidDependencies = [
             recyclerView: "com.android.support:recyclerview-v7:${supportLibraryVersion}",
