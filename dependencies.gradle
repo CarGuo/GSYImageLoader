@@ -30,7 +30,7 @@ ext {
     picassoVersion = '2.5.2'
     universalVersion = '1.9.5'
 
-    gsyImageLoaderVersion = 'v1.0.0'
+    gsyImageLoaderVersion = 'v1.0.1'
 
     androidDependencies = [
             recyclerView: "com.android.support:recyclerview-v7:${supportLibraryVersion}",

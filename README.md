@@ -33,12 +33,12 @@ allprojects {
 #### 2、在module下的build.gradle添加
 ```
 dependencies {
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYGlideLoader:v1.0.0'
+    implementation 'com.github.CarGuo.GSYImageLoader:GSYGlideLoader:v1.0.1'
 
     //选择你需要的
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYPicassoLoader:v1.0.0'
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYFrescoImageLoader:v1.0.0'
-    implementation 'com.github.CarGuo.GSYImageLoader:GSYImageLoader:v1.0.0'
+    implementation 'com.github.CarGuo.GSYImageLoader:GSYPicassoLoader:v1.0.1'
+    implementation 'com.github.CarGuo.GSYImageLoader:GSYFrescoImageLoader:v1.0.1'
+    implementation 'com.github.CarGuo.GSYImageLoader:GSYImageLoader:v1.0.1'
 }
 
 ```
